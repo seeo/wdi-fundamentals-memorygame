@@ -22,12 +22,47 @@ var cards = [
 ];
 
 var cardsInPlay = [];
+var matchCounter = 0;
+
+var reset = function () {
+  for (var i = 0; i < cards.length; i++) {
+    document.getElementsByTagName('img')[i].setAttribute('src', 'images/back.png');
+  }
+  cardsInPlay = [];
+  matchCounter = 0;
+};
+
+function shuffle(array) {
+  var currentIndex = array.length;
+  var temporaryValue;
+  var randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 var checkForMatch = function(){
   if(cardsInPlay[0] === cardsInPlay[1]){
+    matchCounter += 1;
     alert("You found a match!");
+    cards = shuffle(cards); // shuffle cards only when there is a match (i.e. a win)
+    //reset(); removed the reset here so that user can see for him/herself
   }
   else{
     alert("Sorry, try again.");
+    //reset(); removed the reset here so that user can see for him/herself
     }
 }
 var flipCard = function(){
@@ -59,5 +94,9 @@ var createBoard = function(){
     // Q: Why does appendChild(), not use inverted commas for items inside the ()?
   };
 };
+
+//defines reset button
+var button = document.getElementById('button');
+button.addEventListener('click', reset);
 
 createBoard();
